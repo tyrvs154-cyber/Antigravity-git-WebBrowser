@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WebBrowser"
+        android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true">
 
         <activity

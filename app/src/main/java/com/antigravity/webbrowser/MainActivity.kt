@@ -2,13 +2,18 @@ package com.antigravity.webbrowser
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.EditText
@@ -43,6 +48,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var touchOverlay: View
     private lateinit var gestureButtonsContainer: LinearLayout
     private lateinit var btnSsl: ImageButton
+
+    // Fullscreen video support
+    private var fullscreenContainer: FrameLayout? = null
+    private var customWebChromeClient: CustomWebChromeClient? = null
 
     // Components
     private lateinit var settings: BrowserSettings
@@ -121,15 +130,25 @@ class MainActivity : AppCompatActivity() {
      */
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView() {
+        // レイヤータイプをハードウェアに設定（動画レンダリングに必要）
+        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+
         webView.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
+            databaseEnabled = true
             builtInZoomControls = true
             displayZoomControls = false
             setSupportZoom(true)
             mediaPlaybackRequiresUserGesture = false
             allowFileAccess = false
             allowContentAccess = false
+
+            // 動画再生に必要な設定
+            @Suppress("DEPRECATION")
+            pluginState = WebSettings.PluginState.ON
+            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            cacheMode = WebSettings.LOAD_DEFAULT
 
             // PC版モード設定
             if (settings.isDesktopMode) {
@@ -170,8 +189,8 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
-        // WebChromeClient: 進捗とタイトル管理
-        webView.webChromeClient = CustomWebChromeClient(
+        // WebChromeClient: 進捗、タイトル、動画フルスクリーン管理
+        customWebChromeClient = CustomWebChromeClient(
             onProgressChanged = { progress ->
                 runOnUiThread {
                     progressBar.progress = progress
@@ -184,8 +203,15 @@ class MainActivity : AppCompatActivity() {
             },
             onTitleChanged = { title ->
                 // タイトルが必要な場合にここで処理
+            },
+            onFullscreenChanged = { view, callback ->
+                runOnUiThread { enterFullscreen(view) }
+            },
+            onExitFullscreen = {
+                runOnUiThread { exitFullscreen() }
             }
         )
+        webView.webChromeClient = customWebChromeClient
 
         // デバッグ用（開発時のみ）
         WebView.setWebContentsDebuggingEnabled(true)
@@ -326,6 +352,11 @@ class MainActivity : AppCompatActivity() {
      */
     @Suppress("DEPRECATION")
     override fun onBackPressed() {
+        // フルスクリーン動画再生中の場合は解除
+        if (customWebChromeClient?.isInFullscreen() == true) {
+            customWebChromeClient?.exitFullscreen()
+            return
+        }
         if (webView.canGoBack()) {
             webView.goBack()
         } else {
@@ -389,5 +420,55 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         webView.destroy()
         super.onDestroy()
+    }
+
+    // === Fullscreen Video Support ===
+
+    /**
+     * フルスクリーン動画表示に切り替える。
+     * WebViewとUI要素を非表示にし、動画用のフルスクリーンコンテナを表示する。
+     */
+    private fun enterFullscreen(view: View?) {
+        view ?: return
+
+        // フルスクリーンコンテナを作成してウィンドウに追加
+        fullscreenContainer = FrameLayout(this).apply {
+            setBackgroundColor(Color.BLACK)
+            layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            addView(view)
+        }
+
+        // メインコンテンツを非表示にしてフルスクリーンコンテナを表示
+        val rootView = window.decorView.findViewById<FrameLayout>(android.R.id.content)
+        rootView.addView(fullscreenContainer)
+
+        // システムUIを非表示（没入モード）
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = (
+            View.SYSTEM_UI_FLAG_FULLSCREEN or
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        )
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    /**
+     * フルスクリーン動画表示を終了し、通常のブラウザ画面に戻る。
+     */
+    private fun exitFullscreen() {
+        fullscreenContainer?.let { container ->
+            val rootView = window.decorView.findViewById<FrameLayout>(android.R.id.content)
+            rootView.removeView(container)
+            container.removeAllViews()
+        }
+        fullscreenContainer = null
+
+        // システムUIを復元
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 }
