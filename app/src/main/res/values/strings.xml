@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VR Web Browser</string>
+
+    <!-- URL Bar -->
+    <string name="url_hint">URLを入力</string>
+    <string name="go_button">移動</string>
+    <string name="refresh_button">更新</string>
+    <string name="settings_button">設定</string>
+    <string name="ssl_indicator">SSL状態</string>
+
+    <!-- Gesture Modes -->
+    <string name="mode_tap">モード: タップ 👆</string>
+    <string name="mode_swipe_up">モード: 上スワイプ ⬆</string>
+    <string name="mode_swipe_down">モード: 下スワイプ ⬇</string>
+    <string name="mode_swipe_left">モード: 左スワイプ ⬅</string>
+    <string name="mode_swipe_right">モード: 右スワイプ ➡</string>
+    <string name="mode_long_press">モード: 長押し 👇</string>
+    <string name="mode_pinch_in">モード: 縮小 🔍</string>
+    <string name="mode_pinch_out">モード: 拡大 🔎</string>
+
+    <!-- Gesture Button Labels -->
+    <string name="btn_tap">👆\nタップ</string>
+    <string name="btn_swipe_up">⬆\n上</string>
+    <string name="btn_swipe_down">⬇\n下</string>
+    <string name="btn_swipe_left">⬅\n左</string>
+    <string name="btn_swipe_right">➡\n右</string>
+    <string name="btn_long_press">👇\n長押</string>
+    <string name="btn_pinch_in">🔍\n縮小</string>
+    <string name="btn_pinch_out">🔎\n拡大</string>
+
+    <!-- Settings -->
+    <string name="settings_title">設定</string>
+    <string name="settings_section_display">表示設定</string>
+    <string name="settings_section_gesture">ジェスチャー設定</string>
+    <string name="settings_section_general">一般</string>
+    <string name="settings_desktop_mode">PC版（デスクトップ）モード</string>
+    <string name="settings_desktop_mode_desc">PC版のUser-Agentでサイトに接続し、デスクトップレイアウトで表示します</string>
+    <string name="settings_swipe_distance">スワイプ距離</string>
+    <string name="settings_swipe_distance_desc">スワイプジェスチャーの移動量（ピクセル）を調整します</string>
+    <string name="settings_home_url">ホームページURL</string>
+    <string name="settings_home_url_desc">起動時に開くURLを設定します</string>
+    <string name="save">保存</string>
+    <string name="settings_saved">設定を保存しました</string>
+
+    <!-- Messages -->
+    <string name="loading">読み込み中…</string>
+    <string name="error_loading">ページの読み込みに失敗しました</string>
+    <string name="desktop_mode_enabled">PC版モードに切り替えました</string>
+    <string name="desktop_mode_disabled">モバイル版モードに切り替えました</string>
+</resources>

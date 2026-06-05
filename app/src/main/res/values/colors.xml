@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Theme Base Colors -->
+    <color name="background_dark">#FF0D1117</color>
+    <color name="toolbar_background">#FF161B22</color>
+    <color name="surface_dark">#FF21262D</color>
+
+    <!-- Accent Colors -->
+    <color name="accent_cyan">#FF00E5FF</color>
+    <color name="accent_cyan_dim">#8000E5FF</color>
+    <color name="accent_teal">#FF00BFA5</color>
+    <color name="accent_purple">#FFB388FF</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#FFE6EDF3</color>
+    <color name="text_secondary">#FF8B949E</color>
+
+    <!-- Button Colors -->
+    <color name="button_default">#FF30363D</color>
+    <color name="button_selected">#FF00344D</color>
+    <color name="button_selected_border">#FF00E5FF</color>
+    <color name="button_pressed">#FF1A3A4A</color>
+
+    <!-- UI Elements -->
+    <color name="divider">#FF30363D</color>
+    <color name="url_bar_bg">#FF0D1117</color>
+    <color name="url_bar_border">#FF30363D</color>
+    <color name="switch_track">#FF30363D</color>
+    <color name="progress_background">#33FFFFFF</color>
+
+    <!-- Status Colors -->
+    <color name="ssl_secure">#FF4CAF50</color>
+    <color name="ssl_insecure">#FFFF5252</color>
+</resources>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_dark"
+    tools:context=".MainActivity">
+
+    <!-- URL Bar -->
+    <LinearLayout
+        android:id="@+id/urlBarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:gravity="center_vertical"
+        android:background="@color/toolbar_background">
+
+        <!-- SSL indicator -->
+        <ImageButton
+            android:id="@+id/btnSsl"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@android:drawable/ic_lock_idle_lock"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/ssl_indicator"
+            android:scaleType="centerInside"
+            android:padding="6dp"
+            android:tint="@color/accent_cyan" />
+
+        <EditText
+            android:id="@+id/urlEditText"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/url_bar_background"
+            android:hint="@string/url_hint"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:textSize="14sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:inputType="textUri"
+            android:imeOptions="actionGo"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"
+            android:importantForAutofill="no" />
+
+        <ImageButton
+            android:id="@+id/btnGo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_media_play"
+            android:background="@drawable/circle_button_background"
+            android:contentDescription="@string/go_button"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:tint="@color/accent_cyan" />
+
+        <ImageButton
+            android:id="@+id/btnRefresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:src="@android:drawable/stat_notify_sync"
+            android:background="@drawable/circle_button_background"
+            android:contentDescription="@string/refresh_button"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:tint="@color/accent_cyan" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:src="@android:drawable/ic_menu_preferences"
+            android:background="@drawable/circle_button_background"
+            android:contentDescription="@string/settings_button"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:tint="@color/accent_cyan" />
+    </LinearLayout>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:max="100"
+        android:progress="0"
+        android:visibility="gone"
+        android:progressTint="@color/accent_cyan"
+        android:progressBackgroundTint="@color/toolbar_background" />
+
+    <!-- Gesture Toolbar -->
+    <LinearLayout
+        android:id="@+id/gestureToolbarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/toolbar_background"
+        android:paddingTop="2dp"
+        android:paddingBottom="4dp">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:fadeScrollbars="true"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp">
+
+            <LinearLayout
+                android:id="@+id/gestureButtonsContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/modeLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mode_tap"
+            android:textColor="@color/accent_cyan"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:paddingTop="2dp" />
+    </LinearLayout>
+
+    <!-- Divider line -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <!-- WebView + Touch Overlay container -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Transparent touch interceptor overlay -->
+        <View
+            android:id="@+id/touchOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true" />
+    </FrameLayout>
+
+</LinearLayout>
